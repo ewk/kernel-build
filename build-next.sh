@@ -10,6 +10,7 @@ set -e
 builddir=/tmp/rc
 configdir="$HOME"/Documents/hacks/kernel/build
 log="$builddir"/log
+jobs="$(nproc)"
 
 #
 # Update the local git tree
@@ -51,9 +52,9 @@ make mrproper
 
 # This part will take a bit
 echo ""
-echo "Build in progress. Time to take a break."
+echo "Building with $jobs jobs"
 echo "Logging to $log"
 echo ""
-time make -j8 O="$builddir" 2>&1 | tee "$log"
+time make -j"$jobs" O="$builddir" 2>&1 | tee "$log"
 
 source "$HOME"/Documents/hacks/kernel/build/install-next.sh
