@@ -41,13 +41,8 @@ mkdir "$builddir"
 cp "$configdir"/config .config
 make oldconfig
 
-# backup old config
-if test "$(diff .config $configdir/config)" != 0
-then
-	# save the updated config
-	mv "$configdir"/config "$configdir"/configs/config-"$(date '+%Y%m%d')"
-	cp .config "$configdir"/config
-fi
+# save the updated config
+cp .config "$configdir"/config
 
 # Prepare to start the build
 mv .config "$builddir"/.config
