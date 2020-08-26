@@ -2,11 +2,13 @@
 
 set -e
 
+jobs="$(nproc)"
+
 # $builddir from build script
 cd /tmp/rc
 
 # First copy modules to /lib/modules/
-sudo make modules_install
+sudo make -j"$jobs" modules_install
 
 # On most distributions you can just run:
 #sudo make install
