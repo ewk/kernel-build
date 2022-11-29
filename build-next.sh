@@ -2,7 +2,6 @@
 
 #
 # Fetch and build latest linux-next.
-# Will fail if there's no 'next' for today's date.
 #
 
 set -e
@@ -25,8 +24,9 @@ git remote update --prune
 # Don't ever 'git pull' linux-next.
 # @{u} is a shortcut to the upstream branch the current branch is tracking.
 git merge --ff-only @{u}
-# This does not work on weekends.
-git checkout next-"$(date '+%Y%m%d')"
+# Checkout the latest linux-next tag
+next="$(git tag | grep next | sort --version-sort | tail -1)"
+git checkout "$next"
 
 #
 # Clean up build and install directories
