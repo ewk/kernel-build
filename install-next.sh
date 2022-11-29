@@ -2,13 +2,13 @@
 
 set -e
 
-jobs="$(nproc)"
+tasks="$(nproc)"
 
 # $builddir from build script
 cd /tmp/rc
 
 # First copy modules to /lib/modules/
-sudo make -j"$jobs" modules_install
+sudo make -j"$tasks" modules_install
 
 if [[ -e "/etc/arch-release" ]]
 then
