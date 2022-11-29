@@ -55,6 +55,6 @@ echo ""
 echo "Building with $tasks make jobs"
 echo "Logging to $log"
 echo ""
-time make -j"$tasks" O="$builddir" 2>&1 | tee "$log"
+time make -j"$tasks" O="$builddir" --silent 2> "$log"
 
 source "$HOME"/Documents/hacks/kernel/build/install-next.sh
