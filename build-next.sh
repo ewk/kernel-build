@@ -35,6 +35,8 @@ git checkout "$next"
 # remove old builds
 sudo rm -r /lib/modules/*next* || true
 sudo rm /boot/*next* || true
+sudo rm /boot/System.map || true
+sudo rm /boot/vmlinuz || true
 sudo rm -r "$builddir" || true
 
 # Now we are ready to build

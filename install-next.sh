@@ -31,9 +31,9 @@ then
 
 elif [[ -e "/etc/fedora-release" ]]
 then
-	# grub will automatically find the new kernel
+	old_entry="$(sudo grubby --info=ALL | rg '^kernel="(/boot/vmlinuz.*next.*)"' -r '$1')"
+	sudo grubby --remove-kernel="$old_entry" || true
 	sudo make install
-
 else
 	echo "Unable to identify distro"
 fi
