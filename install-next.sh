@@ -15,17 +15,17 @@ then
 	release="$(make kernelrelease)"
 
 	# Move the new kernel image and system map into place.
-	sudo cp -v /tmp/rc/arch/x86/boot/bzImage /boot/vmlinuz-"$release"
-	sudo cp -v /tmp/rc/System.map /boot/System.map-"$release"
+	sudo cp --verbose /tmp/rc/arch/x86/boot/bzImage /boot/vmlinuz-"$release"
+	sudo cp --verbose /tmp/rc/System.map /boot/System.map-"$release"
 
 	# Make a new initramfs image file using /etc/mkinitcpio.conf
-	sudo mkinitcpio -k "$release" -g /boot/initramfs-"$release".img
 
 	# Update systemd-boot entry
 	loader=/boot/loader/entries/linux-next.conf
 	sudo sed -i "s/vmlinuz-.*next.*/vmlinuz-$release/" "$loader"
 	sudo sed -i "s/initramfs.*next.*\.img/initramfs-$release\.img/" "$loader"
 	sudo cat "$loader"
+	sudo mkinitcpio --kernel "$release" --generate /boot/initramfs-"$release".img
 
 elif [[ -e "/etc/fedora-release" ]]
 then
