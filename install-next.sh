@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 tasks="$(nproc)"
 
 # $builddir from build script
