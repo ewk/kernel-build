@@ -19,14 +19,9 @@ then
 	sudo cp --verbose /tmp/rc/System.map /boot/System.map-"$release"
 
 	# Make a new initramfs image file using /etc/mkinitcpio.conf
-
-	# Update systemd-boot entry
-	loader=/boot/loader/entries/linux-next.conf
-	sudo sed -i "s/vmlinuz-.*next.*/vmlinuz-$release/" "$loader"
-	sudo sed -i "s/initramfs.*next.*\.img/initramfs-$release\.img/" "$loader"
-	sudo cat "$loader"
 	sudo mkinitcpio --kernel "$release" --generate /boot/initramfs-"$release".img
 
+	sudo grub-mkconfig -o /boot/grub/grub.cfg
 elif [[ -e "/etc/fedora-release" ]]
 then
 	old_entry="$(sudo grubby --info=ALL | rg '^kernel="(/boot/vmlinuz.*next.*)"' -r '$1')"
