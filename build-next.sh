@@ -6,10 +6,7 @@
 
 set -e
 
-builddir=/tmp/rc
 configdir="$HOME"/Documents/hacks/kernel/build
-log="$builddir"/log
-tasks="$(nproc)"
 
 #
 # Update the local git tree
@@ -37,26 +34,16 @@ sudo rm -r /lib/modules/*next* || true
 sudo rm /boot/*next* || true
 sudo rm /boot/System.map || true
 sudo rm /boot/vmlinuz || true
-sudo rm -r "$builddir" || true
 
 # Now we are ready to build
-mkdir "$builddir"
+make mrproper
 cp "$configdir"/config .config
 make oldconfig
 
 # save the updated config
 cp .config "$configdir"/config
 
-# Prepare to start the build
-mv .config "$builddir"/.config
-# remove generated files and the config
-make mrproper
-
 # This part will take a bit
-echo ""
-echo "Building with $tasks make jobs"
-echo "Logging to $log"
-echo ""
-time make -j"$tasks" O="$builddir" --silent 2> "$log"
+time make -j"$(nproc)" --silent 2> log
 
 source "$HOME"/Documents/hacks/kernel/build/install-next.sh

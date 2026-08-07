@@ -1,12 +1,7 @@
 #!/bin/bash
 
-tasks="$(nproc)"
-
-# $builddir from build script
-cd /tmp/rc
-
 # First copy modules to /lib/modules/
-sudo make -j"$tasks" modules_install
+sudo make -j"$(nproc)" modules_install
 
 if [[ -e "/etc/arch-release" ]]
 then
